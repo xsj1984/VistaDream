@@ -1,5 +1,5 @@
 <h2> 
-<a href="" target="_blank">VistaDream: Sampling multiview consistent images for single-view scene reconstruction</a>
+<a href="https://vistadream-project-page.github.io/" target="_blank">VistaDream: Sampling multiview consistent images for single-view scene reconstruction</a>
 </h2>
 
 This is the official PyTorch implementation of the following publication:
@@ -7,7 +7,7 @@ This is the official PyTorch implementation of the following publication:
 > **VistaDream: Sampling multiview consistent images for single-view scene reconstruction**<br/>
 > [Haiping Wang](https://hpwang-whu.github.io/), [Yuan Liu](https://liuyuan-pal.github.io/), [Ziwei Liu](https://liuziwei7.github.io/), [Wenping Wang](https://www.cs.hku.hk/people/academic-staff/wenping), [Zhen Dong](https://dongzhenwhu.github.io/index.html), [Bisheng Yang](https://3s.whu.edu.cn/info/1025/1415.htm)<br/>
 > *Arxiv 2024*<br/>
-> [**Paper**]() | [**Project-page**(with Interactive DEMOs)]() 
+> [**Paper**]() | [**Project-page**(with Interactive DEMOs)](https://vistadream-project-page.github.io/) 
 
 
 ## 🔭 Introduction
@@ -35,7 +35,7 @@ This is the official PyTorch implementation of the following publication:
   <tr>
     <td colspan="3" style="text-align:center;">
       More results and interactive demos are provided in the 
-      <a href="https://example.com" target="_blank">Project Page</a>.
+      <a href="https://vistadream-project-page.github.io/" target="_blank">Project Page</a>.
     </td>
   </tr>
 </table>
@@ -50,7 +50,7 @@ This is the official PyTorch implementation of the following publication:
 </p>
 
 ## 🆕 News
-- 2024-10-16: Code, [[project page]](), and [[arXiv paper]]() are aviliable.
+- 2024-10-16: Code, [[project page]](https://vistadream-project-page.github.io/), and [[arXiv paper]]() are aviliable.
 
 ## 💻 Requirements
 The code has been tested on:
@@ -66,11 +66,11 @@ For complete installation instructions, please see [INSTALL.md](INSTALL.md).
 ## 🚅 Pretrained model
 VistaDream is training-free but utilizes pretrained models of several existing projects.
 To download pretrained models for [Fooocus](https://github.com/lllyasviel/Fooocus), [Depth-Pro](https://github.com/apple/ml-depth-pro), 
-[OneFormer](https://github.com/SHI-Labs/OneFormer), [Stable Diffusion-LCM](https://github.com/luosiallen/latent-consistency-model), run the following command:
+[OneFormer](https://github.com/SHI-Labs/OneFormer), [SD-LCM](https://github.com/luosiallen/latent-consistency-model), run the following command:
 ```
 bash download_weights.sh
 ```
-The pretrained models of [LLaVA](https://github.com/haotian-liu/LLaVA) will be automatically downloaded on the first running.
+The pretrained models of [LLaVA](https://github.com/haotian-liu/LLaVA) and [Stable Diffusion-1.5](https://github.com/CompVis/stable-diffusion) will be automatically downloaded from hugging face on the first running.
 
 ## 🔦 Demo
 Try VistaDream using the following commands:

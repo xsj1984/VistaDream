@@ -6,8 +6,8 @@ This is the official PyTorch implementation of the following publication:
 
 > **VistaDream: Sampling multiview consistent images for single-view scene reconstruction**<br/>
 > [Haiping Wang](https://hpwang-whu.github.io/), [Yuan Liu](https://liuyuan-pal.github.io/), [Ziwei Liu](https://liuziwei7.github.io/), [Wenping Wang](https://www.cs.hku.hk/people/academic-staff/wenping), [Zhen Dong](https://dongzhenwhu.github.io/index.html), [Bisheng Yang](https://3s.whu.edu.cn/info/1025/1415.htm)<br/>
-> *Arxiv 2024*<br/>
-> [**Paper**]() | [**Project-page**(with Interactive DEMOs)](https://vistadream-project-page.github.io/) 
+> *arXiv 2024*<br/>
+> [**Paper**](https://arxiv.org/abs/2410.16892) | [**Project-page**(with Interactive DEMOs)](https://vistadream-project-page.github.io/) 
 
 
 ## 🔭 Introduction
@@ -103,7 +103,7 @@ Please consider citing VistaDream if this program benefits your project
 @article{wang2024vistadream,
   title={VistaDream: Sampling multiview consistent images for single-view scene reconstruction},
   author={Haiping Wang and Yuan Liu and Ziwei Liu and Zhen Dong and Wenping Wang and Bisheng Yang},
-  journal={arXiv preprint arXiv:2410.},
+  journal={arXiv preprint arXiv:2410.16892},
   year={2024}
 }
 ```

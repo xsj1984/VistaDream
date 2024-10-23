@@ -10,7 +10,7 @@ wget -P tools/Fooocus/models/loras/ https://huggingface.co/stabilityai/stable-di
 # Fooocus inpaint model
 wget -P tools/Fooocus/models/inpaint/ https://huggingface.co/lllyasviel/fooocus_inpaint/blob/main/inpaint_v26.fooocus.patch 
 # Fooocus Prompt-Extension
-wget-P tools/Fooocus/models/prompt_expansion/fooocus_expansion/pytorch_model.bin  https://huggingface.co/lllyasviel/misc/blob/main/fooocus_expansion.bin 
+wget -P tools/Fooocus/models/prompt_expansion/fooocus_expansion/pytorch_model.bin  https://huggingface.co/lllyasviel/misc/blob/main/fooocus_expansion.bin 
 # Foooocus Upscale
 wget -P tools/Fooocus/models/unscale_models/ https://huggingface.co/lllyasviel/misc/blob/main/fooocus_upscaler_s409985e5.bin 
 

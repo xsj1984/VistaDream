@@ -91,7 +91,6 @@ save_ply(scene,'gf.ply')
 and feed the ```gf.ply``` to [SuperSplat](https://playcanvas.com/supersplat/editor) for visualization.
 
 ## 🔦 ToDo List
-- [ ] Fully check the repo. I have not yet fully checked whether the repo can run successfully on other machines.
 - [ ] Keep sky areas. The sky areas are deteced and removed at now for simplicity.
 - [ ] Release VistaDream with Grad-Geowizard depth inpainting. Only Depth Pro based method has been open-sourced at now because it is more streamlined.
 - [ ] An interactive interface may be developed.

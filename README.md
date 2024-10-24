@@ -92,8 +92,8 @@ and feed the ```gf.ply``` to [SuperSplat](https://playcanvas.com/supersplat/edit
 
 ## 🔦 ToDo List
 - [ ] Keep sky areas. The sky areas are deteced and removed at now for simplicity.
-- [ ] Release VistaDream with Grad-Geowizard depth inpainting. Only Depth Pro based method has been open-sourced at now because it is more streamlined.
-- [ ] An interactive interface may be developed.
+- [ ] VistaDream with Grad-Geowizard depth inpainting.
+- [ ] Colab Demo.
 
 ## 💡 Citation
 If you find this repo helpful, please give us a 😍 star 😍.

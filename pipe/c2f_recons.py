@@ -146,7 +146,9 @@ class Pipeline():
             self.scene = GS_Train_Tool(self.scene,iters=self.opt_iters_per_frame)(self.scene.frames)
 
     def _MCS_Refinement(self):
-        refiner = HackSD_MCS(device='cuda',use_lcm=True,denoise_steps=self.mcs_iterations)
+        refiner = HackSD_MCS(device='cuda',use_lcm=True,denoise_steps=self.mcs_iterations,
+                             sd_ckpt=self.cfg.model.optimize.sd,
+                             lcm_ckpt=self.cfg.model.optimize.lcm)
         self.MVDPS = Refinement_Tool_MCS(self.scene,device='cuda',
                                          refiner=refiner,
                                          traj_type=self.traj_type,

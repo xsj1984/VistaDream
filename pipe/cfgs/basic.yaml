@@ -17,7 +17,7 @@ model:
       pass # it will load required checkpoints automaticly
   optimize:
     sd: 'sd-legacy/stable-diffusion-v1-5' # downloaded from hugging face
-    lcm: 'tools/StableDiffusion/lcm_ckpt'
+    lcm: 'tools/StableDiffusion/lcm_ckpt/pytorch_lora_weights.safetensors'
 
 scene:
   input:
@@ -25,7 +25,7 @@ scene:
 
   outpaint:
     outpaint_selections: ['Left','Right','Top','Bottom']
-    outpaint_extend_times: 0.4
+    outpaint_extend_times: 0.45
 
   traj: 
     n_sample: 10

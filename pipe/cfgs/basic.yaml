@@ -2,7 +2,7 @@ name: basic
 
 model:
   sky:
-    value: 1e5 # to be update
+    value: 1e5 # to update
     oneformer:
       ckpt: 'tools/OneFormer/checkpoints/coco_pretrain_1280x1280_150_16_dinat_l_oneformer_ade20k_160k.pth'
       yaml: 'tools/OneFormer/configs/ade20k/dinat/coco_pretrain_oneformer_dinat_large_bs16_160k_1280x1280.yaml'
@@ -21,7 +21,8 @@ model:
 
 scene:
   input:
-    rgb: 'data/lavender/color.png'
+    rgb: 'data/sd_readingroom/color.png'
+    resize_long_edge: 512
 
   outpaint:
     outpaint_selections: ['Left','Right','Top','Bottom']

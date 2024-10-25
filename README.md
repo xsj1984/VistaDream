@@ -78,8 +78,10 @@ Try VistaDream using the following commands:
 python demo.py
 ```
 Then, you should obtain:
-```data/sd_readingroom/scene.pth```: the generated gaussian field;
-```data/sd_readingroom/video_rgb(dpt).mp4```: the rgb(dpt) renderings from the scene.
+- ```data/sd_readingroom/scene.pth```: the generated gaussian field;
+- ```data/sd_readingroom/video_rgb(dpt).mp4```: the rgb(dpt) renderings from the scene.
+
+If you need to improve the reconstruction quality of your own images, please refer to [INSTRUCT.md](pipe/cfgs/INSTRUCT.md)
 
 To visualize the generated gaussian field, you can use the following script:
 ```

@@ -50,7 +50,7 @@ This is the official PyTorch implementation of the following publication:
 </p>
 
 ## 🆕 News
-- 2024-10-23: Code, [[project page]](https://vistadream-project-page.github.io/), and [[arXiv paper]]() are aviliable.
+- 2024-10-23: Code, [[project page]](https://vistadream-project-page.github.io/), and [[arXiv paper]](https://arxiv.org/abs/2410.16892) are aviliable.
 
 ## 💻 Requirements
 The code has been tested on:

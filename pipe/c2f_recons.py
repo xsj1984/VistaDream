@@ -43,7 +43,7 @@ class Pipeline():
         backup_fn = fn[:spl] + '.original' + fn[spl:]
         rgb = Image.open(fn)
         rgb.save(backup_fn) # back up original image 
-        rgb = np.array(Image.open(fn))[:,:,:3]/255.
+        rgb = np.array(rgb)[:,:,:3]/255.
         H,W = rgb.shape[0:2]
         if H>W:
             W = int(W*resize_long_edge/H)

@@ -95,7 +95,7 @@ and feed the ```gf.ply``` to [SuperSplat](https://playcanvas.com/supersplat/edit
 ## 🔦 ToDo List
 - [ ] Keep sky areas. The sky areas are deteced and removed at now for simplicity.
 - [ ] VistaDream with Grad-Geowizard depth inpainting.
-- [ ] Colab Demo.
+- [ ] Colab Demo and better visualization.
 
 ## 💡 Citation
 If you find this repo helpful, please give us a 😍 star 😍.

@@ -364,18 +364,15 @@ def construct_list_of_attributes(features_dc,features_rest,scale,rotation):
 def save_ply(scene,path):
     xyz       = torch.cat([gf.xyz.reshape(-1,3) for gf in scene.gaussian_frames],dim=0).detach().cpu().numpy()
     scale     = torch.cat([gf.scale.reshape(-1,3) for gf in scene.gaussian_frames],dim=0).detach().cpu().numpy()
-    opacities = torch.cat([gf.opacity.reshape(-1) for gf in scene.gaussian_frames],dim=0)[:,None]
+    opacities = torch.cat([gf.opacity.reshape(-1) for gf in scene.gaussian_frames],dim=0)[:,None].detach().cpu().numpy()
     rotation  = torch.cat([gf.rotation.reshape(-1,4) for gf in scene.gaussian_frames],dim=0).detach().cpu().numpy()
-    rgb       = torch.cat([gf.rgb.reshape(-1,3) for gf in scene.gaussian_frames],dim=0)
-    
-    rgb = torch.sigmoid(rgb)
-    opacities = torch.sigmoid(opacities).detach().cpu().numpy()
-    
+    rgb       = torch.sigmoid(torch.cat([gf.rgb.reshape(-1,3) for gf in scene.gaussian_frames],dim=0))
+    # rgb    
     features_dc, features_rest = color2feat(rgb)
     f_dc = features_dc.flatten(start_dim=1).detach().cpu().numpy()
     f_rest = features_rest.flatten(start_dim=1).detach().cpu().numpy()
     normals = np.zeros_like(xyz)
-    #save
+    # save
     dtype_full = [(attribute, 'f4') for attribute in construct_list_of_attributes(features_dc,features_rest,scale,rotation)]
     elements = np.empty(xyz.shape[0], dtype=dtype_full)
     attributes = np.concatenate((xyz, normals, f_dc, f_rest, opacities, scale, rotation), axis=1)

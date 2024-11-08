@@ -96,7 +96,7 @@ class Occlusion_Removal():
             # uv and d in camra frustrum
             uv,d = uvz_camera[...,:2]/uvz_camera[...,-1:], uvz_camera[...,-1]
             # in-frusturm pixels
-            valid_msk = (uv[...,0]>0) & (uv[...,0]<former_frame.W) & (uv[...,1]>0) & (uv[...,1]<former_frame.H)
+            valid_msk = (uv[...,0]>0) & (uv[...,0]<former_frame.W) & (uv[...,1]>0) & (uv[...,1]<former_frame.H) & (d>1e-2)
             valid_idx = np.where(valid_msk)[0]
             uv,d = uv[valid_idx].astype(np.uint32),d[valid_idx]            
             # make comparsion: compare_d < d is ok -- compare_d - d < 0(or a small number)    

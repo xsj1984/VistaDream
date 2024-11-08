@@ -94,6 +94,7 @@ and feed the ```gf.ply``` to [SuperSplat](https://playcanvas.com/supersplat/edit
 
 ## 🔦 ToDo List
 - [ ] Keep sky areas. The sky areas are deteced and removed at now for simplicity.
+- [ ] Support more types of camera trajectory. An example is given in [issue](https://github.com/WHU-USI3DV/VistaDream/issues/11).
 - [ ] VistaDream with Grad-Geowizard depth inpainting.
 - [ ] Colab Demo and better visualization.
 

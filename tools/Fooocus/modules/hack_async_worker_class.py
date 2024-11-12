@@ -642,7 +642,7 @@ class Hack_worker():
         if 'inpaint' in goals:
             if len(outpaint_selections) > 0:
                 H, W, C = inpaint_image.shape
-                extend_times = 0.4
+                extend_times = outpaint_extend_times
                 if 'top' in outpaint_selections:
                     inpaint_image = np.pad(inpaint_image, [[int(H * extend_times), 0], [0, 0], [0, 0]], mode='edge')
                     inpaint_mask = np.pad(inpaint_mask, [[int(H * extend_times), 0], [0, 0]], mode='constant',

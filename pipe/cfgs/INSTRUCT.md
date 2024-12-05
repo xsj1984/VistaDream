@@ -21,3 +21,7 @@ Here, we provide an explanation of some key parameters in ```pipe/cfgs/basic.yam
 ### 2. Allow Early Check
 
 During the execution of VistaDream, intermediate results are also retained. In the "warp-and-inpaint" coarse Gaussian Field generation stage, the inpainted result from each novel inpainting, ```temp.coarse.interval.png```, will be saved to the folder of the input image. If severe distortion issues occur, it is recommended to terminate the process early and change the ```scene.outpaint.seed``` in ```pipe/cfgs/basic.yaml``` for re-generating.
+
+### 3. Allow Trajectory Design
+
+You can follow [here](../../ops/trajs/TRAJECTORY.MD) to design your own camera trajectory.

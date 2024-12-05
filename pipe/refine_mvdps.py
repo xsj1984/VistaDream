@@ -67,7 +67,7 @@ class Refinement_Tool_MCS():
             fine_frame = Frame()
             fine_frame.H = target_H
             fine_frame.W = target_W
-            fine_frame.extrinsic = pose
+            fine_frame.extrinsic = np.linalg.inv(pose)
             fine_frame.intrinsic = deepcopy(intrinsic)
             fine_frame.prompt  = self.coarse_GS.frames[-1].prompt
             self.refine_frames.append(fine_frame) 
@@ -112,7 +112,7 @@ class Refinement_Tool_MCS():
             for i,frame in enumerate(self.refine_frames):
                 render_rgb,render_dpt,render_alpha = self.refine_GS._render(frame)
                 loss_rgb_item = self.rgb_lossfunc(denoise_rgb[i],render_rgb)
-                loss += loss_rgb_item
+                loss += loss_rgb_item*2
             # optimization
             loss.backward()  
             self.refine_GS.optimizer.step()
@@ -139,10 +139,18 @@ class Refinement_Tool_MCS():
                 # avoid rasterization holes yield more block holes and more
                 x0_rect.append(re_render_rgb.permute(2,0,1)[None])
             x0_rect = torch.cat(x0_rect,dim=0)
+        # randomly Visualization
+        if self.temp_rgb_fn is not None:
+            random_frame = np.random.randint(0,len(self.refine_frames)//2)
+            random_frame = self.refine_frames[random_frame]
+            rgb,dpt,alpha = self.refine_GS._render(random_frame)
+            rgb = rgb.detach().cpu().numpy()
+            save_pic(rgb,self.temp_rgb_fn)
         # rectification
         self.RGB_LCM._step_denoise(rgb_t,rgb_noise_pr,x0_rect,rect_w=self.rect_w) 
 
-    def __call__(self):
+    def __call__(self,temp_rgb_fn=None):
+        self.temp_rgb_fn = temp_rgb_fn
         # warmup
         self._pre_process()
         self._mv_init()

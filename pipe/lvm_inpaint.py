@@ -6,7 +6,7 @@ import torch
 import numpy as np
 from ops.llava import Llava
 from ops.gs.basic import Frame
-from ops.fooocus import Fooocus
+from ops.fooocus import Fooocus_Tool
 
 class Inpaint_Tool():
     def __init__(self,cfg) -> None:
@@ -14,7 +14,7 @@ class Inpaint_Tool():
         self._load_model()
         
     def _load_model(self):
-        self.fooocus = Fooocus()
+        self.fooocus = Fooocus_Tool(fooocus_ckpts=self.cfg.model.paint.fooocus.ckpts)
         self.llava = Llava(device='cpu',llava_ckpt=self.cfg.model.vlm.llava.ckpt)
 
     def _llava_prompt(self,frame):
@@ -55,7 +55,8 @@ class Inpaint_Tool():
                             outpaint_selections=outpaint_selections,
                             outpaint_extend_times=outpaint_extend_times,
                             origin_image=image,
-                            mask_image=mask,)[0]
+                            mask_image=mask,
+                            seed=self.cfg.scene.outpaint.seed)[0]
         torch.cuda.empty_cache()
         
         # reset the frame for outpainting

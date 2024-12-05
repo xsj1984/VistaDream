@@ -29,6 +29,7 @@ class Pipeline():
         self.rgb_inpaintor = Inpaint_Tool(cfg)
         self.reconstructor = Reconstruct_Tool(cfg)
         # temp
+        
         self.removalor = Occlusion_Removal()
         self.checkor = Check()
 
@@ -94,6 +95,8 @@ class Pipeline():
         outpaint_frame.ideal_dpt = deepcopy(metric_dpt)
         outpaint_frame.inpaint = (outpaint_frame.inpaint)&(~sky)
         outpaint_frame.inpaint_wo_edge = (outpaint_frame.inpaint)&(~edge_msk)
+        # temp visualization
+        save_pic(outpaint_frame.rgb,self.coarse_interval_rgb_fn)
         # add init frame
         self.scene._add_trainable_frame(input_frame,require_grad=True)
         self.scene._add_trainable_frame(outpaint_frame,require_grad=True)
@@ -102,7 +105,8 @@ class Pipeline():
     def _generate_traj(self):
         self.dense_trajs = _generate_trajectory(self.cfg,self.scene)
         
-    def _pose_to_frame(self,extrinsic,margin=32):
+    def _pose_to_frame(self,pose,margin=32):
+        extrinsic = np.linalg.inv(pose)
         H = self.scene.frames[0].H + margin
         W = self.scene.frames[0].W + margin
         prompt = self.scene.frames[-1].prompt
@@ -150,6 +154,8 @@ class Pipeline():
         frame.dpt[sky] = self.sky_value
         frame.inpaint = (frame.inpaint) & (~sky)
         frame.inpaint_wo_edge = (frame.inpaint) & (~edge_msk)
+        # temp visualization
+        save_pic(frame.rgb,self.coarse_interval_rgb_fn)
         # determine target depth and normal
         frame.ideal_dpt = metric_dpt
         self.scene._add_trainable_frame(frame)
@@ -175,11 +181,15 @@ class Pipeline():
                                          n_view=self.mcs_n_view,
                                          rect_w=self.mcs_rect_w,
                                          n_gsopt_iters=self.mcs_gsopt_per_frame)
-        self.scene = self.MVDPS()
+        self.scene = self.MVDPS(temp_rgb_fn=self.refine_interval_rgb_fn)
         refiner.to('cpu')
 
     def __call__(self):
         rgb_fn = self.cfg.scene.input.rgb
+        dir = rgb_fn[:str.rfind(rgb_fn,'/')]
+        # temp_interval_image
+        self.coarse_interval_rgb_fn = f'{dir}/temp.coarse.interval.png'
+        self.refine_interval_rgb_fn = f'{dir}/temp.refine.interval.png'
         # coarse
         self.scene = Gaussian_Scene(self.cfg)
         # for trajectory genearation
@@ -197,7 +207,6 @@ class Pipeline():
         self.mcs_gsopt_per_frame = self.cfg.scene.mcs.gsopt_iters
         # coarse scene
         self._resize_input(rgb_fn)
-        dir = rgb_fn[:str.rfind(rgb_fn,'/')]
         rgb = Image.open(rgb_fn)
         self._coarse_scene(rgb)
         torch.cuda.empty_cache()

@@ -1,11 +1,7 @@
-import cv2
 import tqdm
 import torch
-# import lpips
 import numpy as np
-from ops import utils
 import torch.nn.functional as F
-import torchvision.transforms as tvtf
 from ops.gs.basic import Gaussian_Scene,Frame
 from torchmetrics.image import StructuralSimilarityIndexMeasure
 
@@ -26,7 +22,6 @@ class RGB_Loss():
         gt_valid = gt[valid_mask] if valid_mask is not None else gt.reshape(-1,gt.shape[-1])
         l_rgb = self.rgb_loss(pr_valid,gt_valid)
         l_ssim = 1.0 - self.ssim(pr[None].permute(0, 3, 1, 2), gt[None].permute(0, 3, 1, 2))
-        # l_lpips = self.lpips_alex(pr[None].permute(0, 3, 1, 2), gt[None].permute(0, 3, 1, 2))
         return l_rgb + self.w_ssim * l_ssim
 
 class GS_Train_Tool():

@@ -81,6 +81,7 @@ Then, you should obtain:
 - ```data/sd_readingroom/scene.pth```: the generated gaussian field;
 - ```data/sd_readingroom/video_rgb(dpt).mp4```: the rgb(dpt) renderings from the scene.
 
+## 🔦 Generate your own scene
 If you need to improve the reconstruction quality of your own images, please refer to [INSTRUCT.md](pipe/cfgs/INSTRUCT.md)
 
 To visualize the generated gaussian field, you can use the following script:
@@ -94,10 +95,10 @@ and feed the ```gf.ply``` to [SuperSplat](https://playcanvas.com/supersplat/edit
 
 ## 🔦 ToDo List
 - [ ] Keep sky areas. The sky areas are deteced and removed at now for simplicity.
-- [ ] Support more types of camera trajectory. An example is given in this [issue](https://github.com/WHU-USI3DV/VistaDream/issues/11).
+- [-] Early check in generation.
+- [-] Support more types of camera trajectory. Please follow [Here](ops/trajs/TRAJECTORY.MD) to define your trajectory. An example is given in this [issue](https://github.com/WHU-USI3DV/VistaDream/issues/11).
 - [ ] Support sparse-view-input (and no pose needed). An example is given in this [issue](https://github.com/WHU-USI3DV/VistaDream/issues/14).
-- [ ] VistaDream with Grad-Geowizard depth inpainting.
-- [ ] Gradio Demo and better visualization.
+- [-] Gradio Demo and better visualization.
 
 ## 💡 Citation
 If you find this repo helpful, please give us a 😍 star 😍.

@@ -1,5 +1,6 @@
-## INSTRUCTION
+## Instruction for using VistaDream
 
+### 1. Key Hyperparameters
 Here, we provide an explanation of some key parameters in ```pipe/cfgs/basic.yaml``` to facilitate parameter adjustments. For more details, please refer to our paper.
 
 - ```scene.outpaint.outpaint_extend_times``` 
@@ -16,3 +17,7 @@ Here, we provide an explanation of some key parameters in ```pipe/cfgs/basic.yam
   - ```.steps``` means the MCS refine steps. We suggest a value between 8 and 15.
   - ```.n_view``` means the number of viewpoints optimized simultaneously in MCS. On a RTX4090 (24GB), 8 is feasible.
   - ```.rect_w``` determines the MCS control strength. We suggest 0.3-0.8.
+
+### 2. Allow Early Check
+
+During the execution of VistaDream, intermediate results are also retained. In the "warp-and-inpaint" coarse Gaussian Field generation stage, the inpainted result from each novel inpainting, ```temp.coarse.interval.png```, will be saved to the folder of the input image. If severe distortion issues occur, it is recommended to terminate the process early and change the ```scene.outpaint.seed``` in ```pipe/cfgs/basic.yaml``` for re-generating.

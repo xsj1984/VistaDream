@@ -21,7 +21,7 @@ class Check():
         visual_pcd(xyzs,color=rgbs,normal=True)
         
     @torch.no_grad()
-    def _render_video(self,scene:Gaussian_Scene,save_dir='./'):
+    def _render_video(self,scene:Gaussian_Scene,save_dir='./',colorize=False):
         # render 5times frames
         nframes = len(scene.frames)*25
         video_trajs = _generate_trajectory(None,scene,nframes=nframes)
@@ -42,7 +42,7 @@ class Check():
         for pose in video_trajs:
             frame = Frame(H=H,W=W,
                           intrinsic=intrinsic,
-                          extrinsic=pose)
+                          extrinsic=np.linalg.inv(pose))
             rgb,dpt,alpha = scene._render_RGBD(frame)
             rgb = rgb.detach().float().cpu().numpy()
             dpt = dpt.detach().float().cpu().numpy()
@@ -56,9 +56,14 @@ class Check():
         dpts = (dpts-_min) / (_max-_min)
         dpts = dpts.clip(0,1)
 
-        cm = matplotlib.colormaps["plasma"]
-        dpts_color = cm(dpts,bytes=False)[...,0:3]
-        dpts_color = (dpts_color*255).astype(np.uint8)
+        if colorize:
+            cm = matplotlib.colormaps["plasma"]
+            dpts_color = cm(dpts,bytes=False)[...,0:3]
+            dpts_color = (dpts_color*255).astype(np.uint8)
+            dpts = dpts_color
+        else:
+            dpts = dpts[...,None].repeat(3,axis=-1)
+            dpts = (dpts*255).astype(np.uint8)
             
         imageio.mimwrite(f'{save_dir}video_rgb.mp4',rgbs,fps=20)
-        imageio.mimwrite(f'{save_dir}video_dpt.mp4',dpts_color,fps=20)
+        imageio.mimwrite(f'{save_dir}video_dpt.mp4',dpts,fps=20)

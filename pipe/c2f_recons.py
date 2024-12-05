@@ -57,6 +57,12 @@ class Pipeline():
         pic_save = Image.fromarray(pic.astype(np.uint8))
         pic_save.save(fn)
 
+    def _determine_sky(self,out_rgb,out_dpt):
+        sky = self.sky_segor(out_rgb)
+        valid_dpt = out_dpt[~sky]
+        _max = np.percentile(valid_dpt,95)
+        self.sky_value = _max*1.2
+
     def _initialization(self,rgb):
         rgb = np.array(rgb)[:,:,:3]
         # conduct outpainting on rgb and change cu,cv
@@ -66,6 +72,7 @@ class Pipeline():
         # conduct reconstruction on outpaint results
         _,intrinsic,_ = self.reconstructor._ProDpt_(rgb) # estimate focal on input view
         metric_dpt,intrinsic,edge_msk = self.reconstructor._ProDpt_(outpaint_frame.rgb)
+        self._determine_sky(outpaint_frame.rgb,metric_dpt)
         outpaint_frame.intrinsic = deepcopy(intrinsic)
         # split to input and outpaint areas
         input_frame = Frame(H=rgb.shape[0],
@@ -83,8 +90,8 @@ class Pipeline():
         input_frame.sky = sky
         input_dpt[sky] = self.sky_value
         input_frame.dpt = input_dpt
-        input_frame.inpaint = np.ones_like(input_edg,bool) & (~sky)
-        input_frame.inpaint_wo_edge = (~input_edg) & (~sky)
+        input_frame.inpaint = np.ones_like(input_edg,bool) #& (~sky)
+        input_frame.inpaint_wo_edge = (~input_edg) #& (~sky)
         input_frame.ideal_dpt = deepcopy(input_dpt)
         input_frame.prompt = outpaint_frame.prompt
         # outpaint frame
@@ -93,7 +100,7 @@ class Pipeline():
         metric_dpt[sky] = self.sky_value
         outpaint_frame.dpt = metric_dpt
         outpaint_frame.ideal_dpt = deepcopy(metric_dpt)
-        outpaint_frame.inpaint = (outpaint_frame.inpaint)&(~sky)
+        outpaint_frame.inpaint = (outpaint_frame.inpaint)#&(~sky)
         outpaint_frame.inpaint_wo_edge = (outpaint_frame.inpaint)&(~edge_msk)
         # temp visualization
         save_pic(outpaint_frame.rgb,self.coarse_interval_rgb_fn)
@@ -134,7 +141,7 @@ class Pipeline():
                 inpaint_area_ratio[s+1] = 0.
         # select the largest ones
         select = np.argmax(inpaint_area_ratio)
-        if inpaint_area_ratio[select] < 0.0001: return None
+        if inpaint_area_ratio[select] < 0.001: return None
         self.select_frames.append(select)
         pose = self.dense_trajs[select]
         frame = self._pose_to_frame(pose,margin)
@@ -152,7 +159,7 @@ class Pipeline():
         sky = self.sky_segor(frame.rgb)
         frame.sky = sky
         frame.dpt[sky] = self.sky_value
-        frame.inpaint = (frame.inpaint) & (~sky)
+        frame.inpaint = (frame.inpaint) #& (~sky)
         frame.inpaint_wo_edge = (frame.inpaint) & (~edge_msk)
         # temp visualization
         save_pic(frame.rgb,self.coarse_interval_rgb_fn)

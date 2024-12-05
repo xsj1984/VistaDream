@@ -52,14 +52,14 @@ from ops.trajs.check import Base_Check_Traj
 from ops.trajs.rot import Rot
 
 rgb_fn = 'data/sd_readingroom/color.png'
-checkor = Base_Check_Traj()
+checkor = Base_Check_Traj(rgb_fn)
 checkor._fake_scene()
 
 # change Rot below to your class name
 trajector = Rot(checkor.fake_scene,nframe=100)
 
 checkor.trajs = trajector()
-trajector._visualize_traj(trajs) # open3d visualization
+trajector._visualize_traj(checkor.trajs) # open3d visualization
 checkor._render_video() # rendering check
 ```
 Then you should obtain an Open3D window with trajectory visualization below and two rendering videos ```check_traj.video_rgb.mp4```

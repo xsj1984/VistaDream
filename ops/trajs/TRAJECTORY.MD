@@ -32,7 +32,7 @@ In Vistadream, the base trajectory class ```Traj_Base``` is defined in ```ops/tr
     This makes the 'Up' defination much simple.
     In general, when the camera is approximately vertical, the 'Up' vector can be simply defined as ```[0,-1,0]```.
 
-    <img src="data/assert/traj.jpg" alt="Traj" style="zoom:50%;">
+    <img src="../../data/assert/traj.jpg" alt="Traj" style="zoom:50%;">
 
 - Then, You can then define your own ```Traj``` class by inheriting from this ```Traj_Base``` class.
 Examples are in ```ops/trajs/rot.py``` and ```ops/trajs/wobble.py```. 
@@ -65,6 +65,6 @@ checkor._render_video() # rendering check
 Then you should obtain an Open3D window with trajectory visualization below and two rendering videos ```check_traj.video_rgb.mp4```
 and ```check_traj.video_dpt.mp4``` for check.
 
-<img src="data/assert/traj_visual.png" alt="Traj-visual" style="zoom:50%;">
+<img src="../../data/assert/traj_visual.png" alt="Traj-visual" style="zoom:50%;">
 
 

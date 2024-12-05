@@ -31,7 +31,7 @@ scene:
 
   traj: 
     n_sample: 10
-    traj_type: 'spiral'
+    traj_type: 'spiral' # for 'rot' we suggest large n_sample like 25.
     near_percentage: 5
     far_percentage: 95
     traj_forward_ratio: 0.3

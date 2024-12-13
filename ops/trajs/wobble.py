@@ -4,7 +4,7 @@ from .basic import Traj_Base
 class Wobble(Traj_Base):
     def __init__(self, scene=None, nframe=100) -> None:
         super().__init__(scene, nframe)
-        # special parameters for spiral
+        # special parameters for wobble
         self.rot_ratio = 0.3
         self.look_at_ratio = 0.5
         self.forward_ratio = self.scene.traj_forward_ratio

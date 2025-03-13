@@ -29,7 +29,6 @@ class Pipeline():
         self.rgb_inpaintor = Inpaint_Tool(cfg)
         self.reconstructor = Reconstruct_Tool(cfg)
         # temp
-        
         self.removalor = Occlusion_Removal()
         self.checkor = Check()
 
@@ -90,8 +89,8 @@ class Pipeline():
         input_frame.sky = sky
         input_dpt[sky] = self.sky_value
         input_frame.dpt = input_dpt
-        input_frame.inpaint = np.ones_like(input_edg,bool) #& (~sky)
-        input_frame.inpaint_wo_edge = (~input_edg) #& (~sky)
+        input_frame.inpaint = np.ones_like(input_edg,bool)
+        input_frame.inpaint_wo_edge = (~input_edg)
         input_frame.ideal_dpt = deepcopy(input_dpt)
         input_frame.prompt = outpaint_frame.prompt
         # outpaint frame
@@ -100,11 +99,13 @@ class Pipeline():
         metric_dpt[sky] = self.sky_value
         outpaint_frame.dpt = metric_dpt
         outpaint_frame.ideal_dpt = deepcopy(metric_dpt)
-        outpaint_frame.inpaint = (outpaint_frame.inpaint)#&(~sky)
+        outpaint_frame.inpaint = (outpaint_frame.inpaint)
         outpaint_frame.inpaint_wo_edge = (outpaint_frame.inpaint)&(~edge_msk)
         # temp visualization
         save_pic(outpaint_frame.rgb,self.coarse_interval_rgb_fn)
         # add init frame
+        input_frame.keep = True
+        outpaint_frame.keep = True
         self.scene._add_trainable_frame(input_frame,require_grad=True)
         self.scene._add_trainable_frame(outpaint_frame,require_grad=True)
         self.scene = GS_Train_Tool(self.scene,iters=100)(self.scene.frames)
@@ -187,6 +188,7 @@ class Pipeline():
                                          traj_type=self.traj_type,
                                          n_view=self.mcs_n_view,
                                          rect_w=self.mcs_rect_w,
+                                         pre_blur=self.pre_blur,
                                          n_gsopt_iters=self.mcs_gsopt_per_frame)
         self.scene = self.MVDPS(temp_rgb_fn=self.refine_interval_rgb_fn)
         refiner.to('cpu')
@@ -208,6 +210,7 @@ class Pipeline():
         self.outpaint_selections = self.cfg.scene.outpaint.outpaint_selections
         self.outpaint_extend_times = self.cfg.scene.outpaint.outpaint_extend_times
         # for scene refinement
+        self.pre_blur = self.cfg.scene.mcs.blur
         self.mcs_n_view = self.cfg.scene.mcs.n_view
         self.mcs_rect_w = self.cfg.scene.mcs.rect_w
         self.mcs_iterations = self.cfg.scene.mcs.steps
@@ -216,6 +219,10 @@ class Pipeline():
         self._resize_input(rgb_fn)
         rgb = Image.open(rgb_fn)
         self._coarse_scene(rgb)
+        # for more vram
+        self.sky_segor = None
+        self.reconstructor = None
+        self.rgb_inpaintor = None
         torch.cuda.empty_cache()
         # refinement
         self._MCS_Refinement()

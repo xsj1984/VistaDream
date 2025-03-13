@@ -55,9 +55,11 @@ class Frame():
         # for inpainting 
         self.inpaint = inpaint
         self.inpaint_wo_edge = inpaint
-        # for supervision
+        # for supervision (useless now)
         self.ideal_dpt = ideal_dpt
         self.ideal_nml = ideal_nml
+        # for keep supervision
+        self.keep = False
 
     def _rgb_rect(self):
         if self.rgb is not None:
@@ -168,7 +170,7 @@ class Gaussian_Frame():
         # gaussian property -- HW4 rotation
         self.rotation = np.zeros((self.H,self.W,4))
         self.rotation[:,:,0] = 1.
-          
+    
     def _set_property_from_frame(self,frame: Frame):
         '''frame here is a complete init/inpainted frame'''
         # basic frame-level property
@@ -217,7 +219,7 @@ class Gaussian_Scene():
         self.opacity_act = torch.sigmoid
         self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
         # for traj generation
-        self.traj_type   = 'spiral'
+        self.traj_type   = 'spiral' if cfg is None else cfg.scene.traj.traj_type
         if cfg is not None:
             self.traj_min_percentage = cfg.scene.traj.near_percentage
             self.traj_max_percentage = cfg.scene.traj.far_percentage

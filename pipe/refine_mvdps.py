@@ -25,11 +25,13 @@ class Refinement_Tool_MCS():
                  traj_type = 'spiral',
                  n_view = 8,
                  rect_w = 0.7,
+                 pre_blur = False,
                  n_gsopt_iters = 256) -> None:
         # input coarse GS
         # refine frames to be refined; here we refine frames rather than gaussian paras
         self.n_view = n_view
         self.rect_w = rect_w
+        self.pre_blur = pre_blur
         self.n_gsopt_iters = n_gsopt_iters
         self.coarse_GS = coarse_GS
         self.refine_frames: list[Frame] = []
@@ -62,7 +64,7 @@ class Refinement_Tool_MCS():
         intrinsic[0,-1] = target_W/2
         intrinsic[1,-1] = target_H/2
         # generate a set of cameras
-        trajs = _generate_trajectory(None,self.coarse_GS,nframes=self.n_view+2)[1:-1]
+        trajs = _generate_trajectory(None,self.coarse_GS,nframes=self.n_view+1)[1:]
         for i, pose in enumerate(trajs):
             fine_frame = Frame()
             fine_frame.H = target_H
@@ -73,10 +75,12 @@ class Refinement_Tool_MCS():
             self.refine_frames.append(fine_frame) 
         # determine inpaint mask
         temp_scene = Gaussian_Scene()
-        temp_scene._add_trainable_frame(self.coarse_GS.frames[0],require_grad=False)
-        temp_scene._add_trainable_frame(self.coarse_GS.frames[1],require_grad=False)
+        for frame in self.coarse_GS.frames:
+            if frame.keep:
+                temp_scene._add_trainable_frame(frame,require_grad=False)
         for frame in self.refine_frames:
             frame = temp_scene._render_for_inpaint(frame)
+        del temp_scene
             
     def _mv_init(self):
         rgbs = []
@@ -84,6 +88,10 @@ class Refinement_Tool_MCS():
         for frame in self.refine_frames:
             # rendering at now; all in the same shape
             render_rgb,render_dpt,render_alpha=self.coarse_GS._render_RGBD(frame)
+            if self.pre_blur:
+                render_rgb = inpaint_tiny_holes(render_rgb.cpu().numpy(),
+                                                render_alpha.squeeze().cpu().numpy(),.9)
+                render_rgb = torch.from_numpy(render_rgb.astype(np.float32)).to(render_dpt)
             # diffusion images
             rgbs.append(render_rgb.permute(2,0,1)[None])
         self.rgbs = torch.cat(rgbs,dim=0)
@@ -103,8 +111,10 @@ class Refinement_Tool_MCS():
         for iter in range(iters):
             loss = 0.
             # supervise on input view
-            for i in range(2):
-                keep_frame :Frame = self.coarse_GS.frames[i]
+            nkpt = 0
+            for keep_frame in self.coarse_GS.frames:
+                if not keep_frame.keep: continue
+                nkpt+=1
                 render_rgb,render_dpt,render_alpha = self.refine_GS._render(keep_frame)
                 loss_rgb = self.rgb_lossfunc(render_rgb,self._to_cuda(keep_frame.rgb),valid_mask=keep_frame.inpaint)
                 loss += loss_rgb*len(self.refine_frames)
@@ -112,7 +122,7 @@ class Refinement_Tool_MCS():
             for i,frame in enumerate(self.refine_frames):
                 render_rgb,render_dpt,render_alpha = self.refine_GS._render(frame)
                 loss_rgb_item = self.rgb_lossfunc(denoise_rgb[i],render_rgb)
-                loss += loss_rgb_item*2
+                loss += loss_rgb_item*nkpt/2.
             # optimization
             loss.backward()  
             self.refine_GS.optimizer.step()
@@ -143,9 +153,9 @@ class Refinement_Tool_MCS():
         if self.temp_rgb_fn is not None:
             random_frame = np.random.randint(0,len(self.refine_frames)//2)
             random_frame = self.refine_frames[random_frame]
-            rgb,dpt,alpha = self.refine_GS._render(random_frame)
+            rgb,_,_ = self.refine_GS._render(random_frame)
             rgb = rgb.detach().cpu().numpy()
-            save_pic(rgb,self.temp_rgb_fn)
+            save_pic(rgb,self.temp_rgb_fn)                
         # rectification
         self.RGB_LCM._step_denoise(rgb_t,rgb_noise_pr,x0_rect,rect_w=self.rect_w) 
 

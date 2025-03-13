@@ -44,5 +44,6 @@ scene:
     steps: 10 # among 50 total steps
     n_view: 8
     rect_w: 0.7
+    blur: False # first blurring rendering images
     gsopt_iters: 256
   

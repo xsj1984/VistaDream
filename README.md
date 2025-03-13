@@ -72,7 +72,7 @@ bash download_weights.sh
 ```
 The pretrained models of [LLaVA](https://github.com/haotian-liu/LLaVA) and [Stable Diffusion-1.5](https://github.com/CompVis/stable-diffusion) will be automatically downloaded from hugging face on the first running.
 
-## 🔦 Demo
+## 🔦 Demo (Single-View Generation)
 Try VistaDream using the following commands:
 ```
 python demo.py
@@ -81,7 +81,22 @@ Then, you should obtain:
 - ```data/sd_readingroom/scene.pth```: the generated gaussian field;
 - ```data/sd_readingroom/video_rgb(dpt).mp4```: the rgb(dpt) renderings from the scene.
 
-## 🔦 Generate your own scene
+## 🔦 Demo (Sparse-View Generation)
+To use sparse views as input as [demo_here](https://github.com/WHU-USI3DV/VistaDream/issues/14), we need [Dust3r](https://github.com/naver/dust3r) to first reconstruct the input images to 3D as the scaffold (no zoom-out needed).
+
+First download Dust3r [checkpoints](https://download.europe.naverlabs.com/ComputerVision/DUSt3R/DUSt3R_ViTLarge_BaseDecoder_512_dpt.pth) and place it at ```tools/Dust3r/checkpoints``` by the following command:
+```
+wget -P tools/Dust3r/checkpoints https://download.europe.naverlabs.com/ComputerVision/DUSt3R/DUSt3R_ViTLarge_BaseDecoder_512_dpt.pth
+```
+Then try VistaDream with sparse images as input using the following commands:
+```
+python demo_sparse.py
+```
+Then, you should obtain:
+- ```data/bedroom/scene.pth```: the generated gaussian field;
+- ```data/bedroom/video_rgb(dpt).mp4```: the rgb(dpt) renderings from the scene.
+
+## 🔦 Generate your own scene (Single or Sparse views as input)
 If you need to improve the reconstruction quality of your own images, please refer to [INSTRUCT.md](pipe/cfgs/INSTRUCT.md)
 
 To visualize the generated gaussian field, you can use the following script:
@@ -96,9 +111,8 @@ and feed the ```gf.ply``` to [SuperSplat](https://playcanvas.com/supersplat/edit
 ## 🔦 ToDo List
 - [x] Early check in generation.
 - [x] Support more types of camera trajectory. Please follow [Here](ops/trajs/TRAJECTORY.MD) to define your trajectory. An example is given in this [issue](https://github.com/WHU-USI3DV/VistaDream/issues/11).
-- [ ] Gradio Demo.
-- [ ] Colab Demo.
-- [ ] Support sparse-view-input (and no pose needed). An example is given in this [issue](https://github.com/WHU-USI3DV/VistaDream/issues/14).
+- [x] Support sparse-view-input (and no pose needed). An example is given in this [issue](https://github.com/WHU-USI3DV/VistaDream/issues/14).
+- [ ] Interactive Demo.
 
 ## 💡 Citation
 If you find this repo helpful, please give us a 😍 star 😍.

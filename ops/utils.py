@@ -329,6 +329,15 @@ def fill_mask_with_nearest(imgs, mask):
             img[coord[0], coord[1]] = img[nearest_coord[0], nearest_coord[1]]
     return imgs
 
+def inpaint_tiny_holes(rgb,alpha,alpha_thres=0.9):
+    ipaint_msk = alpha < alpha_thres
+    output = deepcopy(rgb)
+    for i in range(5):
+        output = cv2.blur(output,(10,10))
+        output[~ipaint_msk] = rgb[~ipaint_msk]
+    output = cv2.blur(output,(5,5))
+    return output
+
 def edge_rectify(metric_dpt,rgb,sky=None):
     edge = edge_filter(metric_dpt,sky)
     process_rgb = deepcopy(rgb)
@@ -379,3 +388,10 @@ def save_ply(scene,path):
     elements[:] = list(map(tuple, attributes))
     el = PlyElement.describe(elements, 'vertex')
     PlyData([el]).write(path)
+    
+
+from sklearn.neighbors import NearestNeighbors
+def knn(x, K: int = 4):
+    model = NearestNeighbors(n_neighbors=K, metric="euclidean").fit(x)
+    distances, _ = model.kneighbors(x)
+    return distances

@@ -84,7 +84,6 @@ class HackSD_MCS():
         _,x0 = self.model._solve_x0(self.latents,noise_pred,t)   
         x0 = (x0 + 1) / 2 # in 0-1
         return t, noise_pred, x0   
-    
 
     @ torch.no_grad()
     def _denoise_to_x0(self, timestep_in_1000, prompt_latent:torch.Tensor):

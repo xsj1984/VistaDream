@@ -73,7 +73,7 @@ class GS_Train_Tool():
         for iter in tqdm.tqdm(range(self.iters)):
             frame_idx = np.random.randint(0,len(target_frames))
             frame :Frame = target_frames[frame_idx]
-            render_rgb,render_dpt,render_alpha=self._render(frame)
+            render_rgb,_,_=self._render(frame)
             loss_rgb = self.rgb_lossfunc(render_rgb,self._to_cuda(frame.rgb),valid_mask=frame.inpaint)
             # optimization
             loss = loss_rgb

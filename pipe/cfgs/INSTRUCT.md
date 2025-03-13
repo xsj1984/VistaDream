@@ -25,3 +25,11 @@ During the execution of VistaDream, intermediate results are also retained. In t
 ### 3. Allow Trajectory Design
 
 You can follow [here](../../ops/trajs/TRAJECTORY.MD) to design your own camera trajectory.
+
+### 4. For sparse view generation
+
+You can try sparse-view reconstruction of VistaDream. 
+For sparse view, we use [Dust3r](https://github.com/naver/dust3r) to first reconstruct the input views and conduct generation on it (w/o zoom-out painting).
+We will output a ```dust3r.video_rgb.mp4``` at very beginning for early check. Please stop if the dust3r results already fail.
+We might try [Fast3r](https://github.com/facebookresearch/fast3r) or [FLARE](https://github.com/ant-research/FLARE) in future for better initialization.
+We highly recommand use ```interp``` trajectory at ```scene.traj.traj_type``` of ```pipe/cfgs/basic_sparse.yaml```

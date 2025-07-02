@@ -6,7 +6,7 @@ This is the official PyTorch implementation of the following publication:
 
 > **VistaDream: Sampling multiview consistent images for single-view scene reconstruction**<br/>
 > [Haiping Wang](https://hpwang-whu.github.io/), [Yuan Liu](https://liuyuan-pal.github.io/), [Ziwei Liu](https://liuziwei7.github.io/), [Wenping Wang](https://www.cs.hku.hk/people/academic-staff/wenping), [Zhen Dong](https://dongzhenwhu.github.io/index.html), [Bisheng Yang](https://3s.whu.edu.cn/info/1025/1415.htm)<br/>
-> *arXiv 2024*<br/>
+> *ICCV 2025*<br/>
 > [**Paper**](https://arxiv.org/abs/2410.16892) | [**Project-page**(with Interactive DEMOs)](https://vistadream-project-page.github.io/) 
 
 
@@ -50,6 +50,7 @@ This is the official PyTorch implementation of the following publication:
 </p>
 
 ## 🆕 News
+- 2025-06-26: VistaDream is accepted by ICCV 2025!
 - 2024-10-23: Code, [[project page]](https://vistadream-project-page.github.io/), and [[arXiv paper]](https://arxiv.org/abs/2410.16892) are aviliable.
 
 ## 💻 Requirements
@@ -113,18 +114,6 @@ and feed the ```gf.ply``` to [SuperSplat](https://playcanvas.com/supersplat/edit
 - [x] Support more types of camera trajectory. Please follow [Here](ops/trajs/TRAJECTORY.MD) to define your trajectory. An example is given in this [issue](https://github.com/WHU-USI3DV/VistaDream/issues/11).
 - [x] Support sparse-view-input (and no pose needed). An example is given in this [issue](https://github.com/WHU-USI3DV/VistaDream/issues/14).
 - [ ] Interactive Demo.
-
-## 💡 Citation
-If you find this repo helpful, please give us a 😍 star 😍.
-Please consider citing VistaDream if this program benefits your project
-```
-@article{wang2024vistadream,
-  title={VistaDream: Sampling multiview consistent images for single-view scene reconstruction},
-  author={Haiping Wang and Yuan Liu and Ziwei Liu and Zhen Dong and Wenping Wang and Bisheng Yang},
-  journal={arXiv preprint arXiv:2410.16892},
-  year={2024}
-}
-```
 
 ## 🔗 Related Projects
 We sincerely thank the excellent open-source projects:

@@ -41,12 +41,12 @@ This is the official PyTorch implementation of the following publication:
 </table>
 
 <p align="justify">
-  <strong>Abstract:</strong> In this paper, we propose VistaDream a novel framework to reconstruct a 3D scene from a single-view image.Recent diffusion models enable generating high-quality novel-view images from a single-view input image. 
-  Most existing methods only concentrate on building the consistency between the input image and the generated images while losing the consistency between the generated images.
-  VistaDream addresses this problem by a two-stage pipeline.
-  In the first stage, VistaDream begins with building a global coarse 3D scaffold by zooming out a little step with outpainted boundaries and an estimated depth map. Then, on this global scaffold, we use iterative diffusion-based RGB-D inpainting to generate novel-view images to inpaint the holes of the scaffold.
-  In the second stage, we further enhance the consistency between the generated novel-view images by a novel training-free Multi-view Consistency Sampling (MCS) that introduces multi-view consistency constraints in the reverse sampling process of diffusion models.
-  Experimental results demonstrate that without training or fine-tuning existing diffusion models, VistaDream achieves consistent and high-quality novel view synthesis using just single-view images and outperforms baseline methods by a large margin.
+  摘要： 本文提出了 VistaDream，一种从单视图图像重建 3D 场景的新型框架。近年来，扩散模型能够从单视图输入图像生成高质量的新视图图像。然而，大多数现有方法仅专注于构建输入图像与生成图像之间的一致性，却忽略了生成图像之间的一致性。
+VistaDream 通过两阶段流水线解决了这一问题：
+  * 第一阶段：VistaDream 首先通过向外扩展边界并结合估计的深度图，构建一个全局粗粒度的 3D 框架。然后，在这个全局框架上，利用基于扩散的迭代 RGB-D 修复技术生成新视图图像，以填充框架中的空洞。
+  * 第二阶段：通过一种无需训练的新型多视图一致性采样（MCS）方法，在扩散模型的反向采样过程中引入多视图一致性约束，进一步增强生成的新视图图像之间的一致性。
+实验结果表明，VistaDream 无需训练或微调现有扩散模型，仅使用单视图图像即可实现一致且高质量的新视图合成，性能显著优于基线方法。
+
 </p>
 
 ## 🆕 News
